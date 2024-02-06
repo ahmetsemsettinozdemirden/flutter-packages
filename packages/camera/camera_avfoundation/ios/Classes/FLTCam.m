@@ -1149,7 +1149,7 @@ NSString *const errorMethod = @"error";
     [result sendError:error];
     return;
   }
-  [_captureDevice setFocusModeLocked:focusDistance completionHandler:nil];
+  [_captureDevice setFocusModeLockedWithLensPosition:focusDistance completionHandler:nil];
   [_captureDevice unlockForConfiguration];
 
   [result sendSuccess];
