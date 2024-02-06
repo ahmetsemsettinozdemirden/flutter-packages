@@ -315,6 +315,25 @@ final class MethodCallHandlerImpl implements MethodChannel.MethodCallHandler {
           }
           break;
         }
+      case "setFocusDistance":
+        {
+          assert camera != null;
+
+          Double focusDistance = call.argument("focusDistance");
+
+          if (focusDistance == null) {
+            result.error(
+                "FOCUS_ERROR", "setFocusDistance is called without specifying a focus distance.", null);
+            return;
+          }
+
+          try {
+            camera.setFocusDistance(result, focusDistance.floatValue());
+          } catch (Exception e) {
+            handleException(e, result);
+          }
+          break;
+        }
       case "lockCaptureOrientation":
         {
           PlatformChannel.DeviceOrientation orientation =

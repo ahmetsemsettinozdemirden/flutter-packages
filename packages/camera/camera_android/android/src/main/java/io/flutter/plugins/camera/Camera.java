@@ -1060,6 +1060,15 @@ class Camera
         (code, message) -> result.error("setZoomLevelFailed", "Could not set zoom level.", null));
   }
 
+  public void setFocusDistance(@NonNull final Result result, float focusDistance) throws CameraAccessException {
+    previewRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CameraMetadata.CONTROL_AF_MODE_OFF); // disable auto-focus
+    previewRequestBuilder.set(CaptureRequest.LENS_FOCUS_DISTANCE, focusDistance); // lock focus
+
+    refreshPreviewCaptureSession(
+        () -> result.success(null),
+        (code, message) -> result.error("setFocusDistanceFailed", "Could not set focus distance.", null));
+  }
+
   /**
    * Lock capture orientation from dart.
    *
