@@ -213,6 +213,9 @@
     } else if ([@"setZoomLevel" isEqualToString:call.method]) {
       CGFloat zoom = ((NSNumber *)argsMap[@"zoom"]).floatValue;
       [_camera setZoomLevel:zoom Result:result];
+    } else if ([@"setFocusDistance" isEqualToString:call.method]) {
+      CGFloat focusDistance = ((NSNumber *)argsMap[@"focusDistance"]).floatValue;
+      [_camera setFocusDistance:focusDistance Result:result];
     } else if ([@"setFlashMode" isEqualToString:call.method]) {
       [_camera setFlashModeWithResult:result mode:call.arguments[@"mode"]];
     } else if ([@"setExposureMode" isEqualToString:call.method]) {

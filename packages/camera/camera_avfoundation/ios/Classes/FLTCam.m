@@ -1129,6 +1129,32 @@ NSString *const errorMethod = @"error";
   [result sendSuccess];
 }
 
+- (void)setFocusDistance:(CGFloat)focusDistance Result:(FLTThreadSafeFlutterResult *)result {
+  if (!_captureDevice.isLockingFocusWithCustomLensPositionSupported) {
+    [result sendErrorWithCode:@"FOCUS_ERROR"
+                      message:@"Device does not support locking focus with custom lens position"
+                      details:nil];
+    return;
+  }
+
+  if (focusDistance < 0 || focusDistance > 1) {
+    [result sendErrorWithCode:@"FOCUS_ERROR"
+                      message:@"Focus distance out of bounds (focus distance should be between 0 and 1)"
+                      details:nil];
+    return;
+  }
+
+  NSError *error = nil;
+  if (![_captureDevice lockForConfiguration:&error]) {
+    [result sendError:error];
+    return;
+  }
+  [_captureDevice setFocusModeLocked:focusDistance completionHandler:nil];
+  [_captureDevice unlockForConfiguration];
+
+  [result sendSuccess];
+}
+
 - (CGFloat)getMinAvailableZoomFactor {
   return _captureDevice.minAvailableVideoZoomFactor;
 }
